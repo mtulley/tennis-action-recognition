@@ -59,6 +59,7 @@ import pickle
 import sys
 from pathlib import Path
 from collections import Counter
+import random
 
 import numpy as np
 
@@ -175,15 +176,16 @@ def to_nctvm(seq: np.ndarray, max_len: int) -> np.ndarray:
     return out
 
 
-def assign_split(actor_idx: int, val_actor: int, test_actor: int) -> str:
-    """Return 'train', 'val', or 'test' for a given actor index."""
-    if actor_idx < val_actor:
+def assign_split(actor_idx: int, seed: int = 42) -> str:
+    """Randomly assign actors to splits: 70% train, 15% val, 15% test."""
+    rng = random.Random(seed + actor_idx)  # deterministic per actor
+    r = rng.random()
+    if r < 0.70:
         return "train"
-    elif actor_idx < test_actor:
+    elif r < 0.85:
         return "val"
     else:
         return "test"
-
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
