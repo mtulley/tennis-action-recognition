@@ -67,17 +67,17 @@ import numpy as np
 # Directory-name  →  (display name, class index)
 ACTION_MAP = {
     "backhand_1h":        ("Backhand with one hand",  0),
-    "backhand_2h":        ("Backhand with two hands", 0),
-    "backhand_slice":     ("Backhand slice",          0),
-    "backhand_volley":    ("Backhand volley",         0),
-    "forehand_flat":      ("Forehand flat",           1),
-    "forehand_open":      ("Forehand open stance",    1),
-    "forehand_slice":     ("Forehand slice",          1),
-    "forehand_volley":    ("Forehand volley",         1),
-    "overhead":           ("Overhead",                2),
-    "serve_flat":         ("Flat service",            2),
-    "serve_kick":         ("Kick service",           2),
-    "serve_slice":        ("Slice service",          2),
+    "backhand_2h":        ("Backhand with two hands", 1),
+    "backhand_slice":     ("Backhand slice",          2),
+    "backhand_volley":    ("Backhand volley",         3),
+    "forehand_flat":      ("Forehand flat",           4),
+    "forehand_open":      ("Forehand open stance",    5),
+    "forehand_slice":     ("Forehand slice",          6),
+    "forehand_volley":    ("Forehand volley",         7),
+    "overhead":           ("Overhead",                8),
+    "serve_flat":         ("Flat service",            9),
+    "serve_kick":         ("Kick service",           10),
+    "serve_slice":        ("Slice service",          11),
 }
 
 NUM_JOINTS   = 34   # NVIDIA bodypose format
@@ -199,21 +199,9 @@ def build_dataset(
     test_actor:   int   = 50,
     num_actors:   int   = 55,
 ):
-    """
-    Actor split boundaries (inclusive):
-      train : p1            … p(val_actor-1)
-      val   : p(val_actor)  … p(test_actor-1)
-      test  : p(test_actor) … p(num_actors)
-    """
     input_dir  = Path(input_dir)
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    print(f"Split boundaries:")
-    print(f"  train : p1  – p{val_actor - 1}")
-    print(f"  val   : p{val_actor} – p{test_actor - 1}")
-    print(f"  test  : p{test_actor} – p{num_actors}")
-    print()
 
     buckets = {
         "train": ([], [], []),
@@ -256,7 +244,7 @@ def build_dataset(
                 print(f"  [WARN] Cannot parse actor from '{jf.name}', assigning to train.")
                 actor_idx = 1
 
-            split = assign_split(actor_idx, val_actor, test_actor)
+            split = assign_split(actor_idx)
             sample_name = jf.stem   # e.g. "p1_backhand_s1"
 
             data_list, names_list, labels_list = buckets[split]
