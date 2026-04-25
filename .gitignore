@@ -1,5 +1,14 @@
-/dataset/
-/results/
-/pretrained/
+# Ignore dataset but keep directory structure
+/dataset/*
+
+# Ignore pretrained models but keep directory structure
+/pretrained/pose_classification/*
+
+# Ignore python venv
 /.venv/
-/deepstream_tao_apps/
+
+# Ignore all results except the best models
+/results/pose_classification/*
+
+# Best pose_classification model
+!/results/pose_classification/v2.1/
