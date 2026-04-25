@@ -86,17 +86,6 @@ NUM_CHANNELS = 3    # x, y, z
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def get_dominant_object_id(data):
-    ids = []
-    for entry in data:
-        batches = entry.get("batches", [])
-        if batches:
-            for obj in batches[0].get("objects", []):
-                ids.append(obj.get("object_id"))
-    most_common = Counter(ids).most_common(1)
-    return most_common[0][0] if most_common else None
-
-
 def parse_actor_index(filename: str) -> int:
     """Extract numeric actor index from filename, e.g. 'p12_backhand_s1' → 12."""
     name = Path(filename).stem          # strip extension
@@ -141,8 +130,13 @@ def load_pose3d_sequence(json_path: str) -> np.ndarray | None:
         if raw is None or len(raw) < NUM_JOINTS * 4:
             continue
 
-        raw = np.array(raw, dtype=np.float32).reshape(NUM_JOINTS, 4)
-        frames_xyz.append(raw[:, :3])
+        # AFTER
+        raw  = np.array(raw, dtype=np.float32).reshape(NUM_JOINTS, 4)
+        xyz  = raw[:, :3]
+        conf = raw[:, 3]
+        if len(frames_xyz) > 0:
+            xyz[conf < 0.5] = frames_xyz[-1][conf < 0.5]   # carry forward last good position
+        frames_xyz.append(xyz)
 
     if not frames_xyz:
         return None
@@ -164,15 +158,15 @@ def normalise(seq: np.ndarray, focal_length: float) -> np.ndarray:
 
 
 def to_nctvm(seq: np.ndarray, max_len: int) -> np.ndarray:
-    """
-    Convert (T, V, C) → (C, max_len, V, 1) with zero-padding / truncation.
-    """
     T = seq.shape[0]
+    # Tile to fill max_len instead of zero-padding
+    if T < max_len:
+        repeats = (max_len + T - 1) // T
+        seq = np.tile(seq, (repeats, 1, 1))[:max_len]
+    else:
+        seq = seq[:max_len]
     out = np.zeros((NUM_CHANNELS, max_len, NUM_JOINTS, 1), dtype=np.float32)
-    T_use = min(T, max_len)
-    # seq: (T, V, C) → transpose to (C, T, V)
-    seq_t = seq[:T_use].transpose(2, 0, 1)   # (C, T_use, V)
-    out[:, :T_use, :, 0] = seq_t
+    out[:, :, :, 0] = seq.transpose(2, 0, 1)   # (C, T, V)
     return out
 
 
@@ -192,7 +186,7 @@ def assign_split(actor_idx: int, seed: int = 42) -> str:
 def build_dataset(
     input_dir:    str,
     output_dir:   str,
-    focal_length: float = 1200.0,
+    focal_length: float = 800.79041,
     max_seq_len:  int   = 300,
     min_seq_len:  int   = 10,
     val_actor:    int   = 40,

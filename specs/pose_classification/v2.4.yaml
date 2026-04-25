@@ -1,0 +1,53 @@
+results_dir: /workspace/results/v2.4
+encryption_key: nvidia_tao
+
+model:
+  model_type: ST-GCN
+  pretrained_model_path: "/workspace/pretrained/st-gcn_3dbp_nvidia.tlt"
+  input_channels: 3
+  dropout: 0.0
+  graph_layout: "nvidia"
+  graph_strategy: "spatial"
+  edge_importance_weighting: True
+
+dataset:
+  train_dataset:
+    data_path: "/workspace/dataset/pose_classification/v1.5_correct-focal-length/train_data.npy"
+    label_path: "/workspace/dataset/pose_classification/v1.5_correct-focal-length/train_label.pkl"
+  val_dataset:
+    data_path: "/workspace/dataset/pose_classification/v1.5_correct-focal-length/val_data.npy"
+    label_path: "/workspace/dataset/pose_classification/v1.5_correct-focal-length/val_label.pkl"
+  num_classes: 12
+  label_map:
+    backhand_1h: 0
+    backhand_2h: 1
+    backhand_slice: 2
+    backhand_volley: 3
+    forehand_flat: 4
+    forehand_open: 5
+    forehand_slice: 6
+    forehand_volley: 7
+    overhead: 8
+    serve_flat: 9
+    serve_kick: 10
+    serve_slice: 11
+  batch_size: 16
+  num_workers: 4
+  random_choose: True
+  random_move: False
+  window_size: 80
+
+train:
+  gpu_ids: [0]
+  optim:
+    lr: 0.001
+    momentum: 0.9
+    nesterov: True
+    weight_decay: 0.0001
+    lr_scheduler: "MultiStep"
+    lr_steps:
+      - 50
+      - 70
+    lr_decay: 0.1
+  num_epochs: 80
+  checkpoint_interval: 5
