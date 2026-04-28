@@ -1,0 +1,122 @@
+model_name: null
+encryption_key: nvidia_tao
+results_dir: /workspace/results/pose_classification/v2.1/inference
+wandb:
+  enable: true
+  project: TAO Toolkit
+  entity: ''
+  group: ''
+  tags:
+  - training
+  - tao-toolkit
+  reinit: false
+  sync_tensorboard: false
+  save_code: false
+  name: TAO Toolkit training experiment
+  run_id: ''
+model:
+  model_type: ST-GCN
+  pretrained_model_path: /workspace/pretrained/pose_classification/st-gcn_3dbp_nvidia.tlt
+  input_channels: 3
+  dropout: 0.0
+  graph_layout: nvidia
+  graph_strategy: spatial
+  edge_importance_weighting: true
+dataset:
+  train_dataset:
+    data_path: /workspace/dataset/pose_classification/v1.5_correct-focal-length/train_data.npy
+    label_path: /workspace/dataset/pose_classification/v1.5_correct-focal-length/train_label.pkl
+  val_dataset:
+    data_path: /workspace/dataset/pose_classification/v1.5_correct-focal-length/val_data.npy
+    label_path: /workspace/dataset/pose_classification/v1.5_correct-focal-length/val_label.pkl
+  num_classes: 12
+  label_map:
+    backhand_1h: 0
+    backhand_2h: 1
+    backhand_slice: 2
+    backhand_volley: 3
+    forehand_flat: 4
+    forehand_open: 5
+    forehand_slice: 6
+    forehand_volley: 7
+    overhead: 8
+    serve_flat: 9
+    serve_kick: 10
+    serve_slice: 11
+  random_choose: true
+  random_move: false
+  window_size: 40
+  batch_size: 16
+  num_workers: 4
+train:
+  num_gpus: 1
+  gpu_ids:
+  - 0
+  num_nodes: 1
+  seed: 1234
+  cudnn:
+    benchmark: false
+    deterministic: true
+  num_epochs: 80
+  checkpoint_interval: 5
+  checkpoint_interval_unit: epoch
+  validation_interval: 1
+  resume_training_checkpoint_path: null
+  results_dir: null
+  optim:
+    optimizer_type: torch.optim.SGD
+    lr: 0.1
+    momentum: 0.9
+    nesterov: true
+    weight_decay: 0.0001
+    lr_scheduler: MultiStep
+    lr_monitor: val_loss
+    patience: 1
+    min_lr: 0.0001
+    lr_steps:
+    - 50
+    - 70
+    lr_decay: 0.1
+  grad_clip: 0.0
+inference:
+  num_gpus: 1
+  gpu_ids:
+  - 0
+  num_nodes: 1
+  checkpoint: /workspace/results/pose_classification/v2.1/train/pc_model_latest.pth
+  trt_engine: null
+  results_dir: /workspace/results/pose_classification/v2.1/inference
+  batch_size: -1
+  output_file: /workspace/results/pose_classification/v2.1/inference/predictions.txt
+  test_dataset:
+    data_path: /workspace/dataset/pose_classification/v1.5_correct-focal-length/test_data.npy
+    label_path: null
+evaluate:
+  num_gpus: 1
+  gpu_ids:
+  - 0
+  num_nodes: 1
+  checkpoint: ???
+  trt_engine: null
+  results_dir: null
+  batch_size: -1
+  test_dataset:
+    data_path: null
+    label_path: null
+export:
+  results_dir: null
+  checkpoint: null
+  onnx_file: null
+  gpu_id: 0
+dataset_convert:
+  results_dir: null
+  data: null
+  pose_type: 3dbp
+  num_joints: 34
+  input_width: 1920
+  input_height: 1080
+  focal_length: 1200.0
+  sequence_length_max: 300
+  sequence_length_min: 10
+  sequence_length: 100
+  sequence_overlap: 0.5

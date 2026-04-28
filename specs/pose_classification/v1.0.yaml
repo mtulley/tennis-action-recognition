@@ -1,4 +1,4 @@
-results_dir: /workspace/results/v1.0
+results_dir: /workspace/results/pose_classification/v1.0/
 
 model:
   model_type: ST-GCN

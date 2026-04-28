@@ -1,9 +1,9 @@
-results_dir: /workspace/results/v2.2
+results_dir: /workspace/results/pose_classification/v2.2
 encryption_key: nvidia_tao
 
 model:
   model_type: ST-GCN
-  pretrained_model_path: "/workspace/pretrained/st-gcn_3dbp_nvidia.tlt"
+  pretrained_model_path: "/workspace/pretrained/pose_classification/st-gcn_3dbp_nvidia.tlt"
   input_channels: 3
   dropout: 0.0
   graph_layout: "nvidia"
