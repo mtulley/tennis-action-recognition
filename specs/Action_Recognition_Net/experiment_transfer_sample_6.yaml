@@ -1,0 +1,123 @@
+model_name: action_recognition
+encryption_key: nvidia_tao
+results_dir: /workspace/TAO/Training_results/results_y_10
+
+wandb:
+  enable: false
+
+model:
+  model_type: rgb
+  backbone: resnet_18
+  input_type: 3d
+  of_seq_length: 10
+  of_pretrained_model_path: null
+  of_pretrained_num_classes: 5
+  rgb_seq_length: 2
+  rgb_pretrained_model_path: /workspace/TAO/tennis-action-recognition/pretrained_weights/actionrecognitionnet_vtrainable_rgb_3d/resnet18_3d_rgb_hmdb5_32.tlt
+  rgb_pretrained_num_classes: 5
+  num_fc: 64
+  joint_pretrained_model_path: null
+  sample_strategy: random_interval
+  sample_rate: 3
+  imagenet_pretrained: false
+  dropout_ratio: 0.1
+  input_width: 224
+  input_height: 224
+
+dataset:
+  train_dataset_dir: /workspace/TAO/datasets/fullframes2/train
+  val_dataset_dir: /workspace/TAO/datasets/fullframes2/val
+  label_map:
+    backhand: 0
+    backhand2hands: 1
+    backhand_slice: 2
+    backhand_volley: 3
+    flat_service: 4
+    forehand_flat: 5
+    forehand_openstands: 6
+    forehand_slice: 7
+    forehand_volley: 8
+    kick_service: 9
+    slice_service: 10
+    smash: 11
+  batch_size: 8
+  workers: 8
+  clips_per_video: 8
+  augmentation_config:
+    train_crop_type: no_crop
+    scales:
+      - 1.0
+    horizontal_flip_prob: 0.0
+    rgb_input_mean:
+      - 0.5
+    rgb_input_std:
+      - 0.5
+    of_input_mean:
+      - 0.5
+    of_input_std:
+      - 0.5
+    val_center_crop: false
+    crop_smaller_edge: 256
+
+train:
+  num_gpus: 1
+  gpu_ids:
+    - 0
+  num_nodes: 1
+  seed: 1234
+  cudnn:
+    benchmark: false
+    deterministic: true
+  num_epochs: 14
+  checkpoint_interval: 1
+  checkpoint_interval_unit: epoch
+  validation_interval: 1
+  resume_training_checkpoint_path: null
+  results_dir: /workspace/TAO/Training_results/results_y_10
+  optim:
+    lr: 0.0005
+    momentum: 0.9
+    weight_decay: 0.0001
+    lr_scheduler: MultiStep
+    lr_monitor: val_loss
+    patience: 1
+    min_lr: 0.0001
+    lr_steps:
+      - 5
+      - 15
+      - 25
+    lr_decay: 0.1
+  clip_grad_norm: 0.0
+
+evaluate:
+  num_gpus: 1
+  gpu_ids:
+    - 0
+  num_nodes: 1
+  checkpoint: /workspace/TAO/Training_results/results_y_10/train/ar_model_latest.pth
+  trt_engine: null
+  results_dir: /workspace/TAO/Training_results/results_y_10
+  batch_size: 1
+  test_dataset_dir: /workspace/TAO/datasets/fullframes2/test
+  video_eval_mode: center
+  video_num_segments: 10
+
+export:
+  checkpoint: /workspace/TAO/Training_results/results_y_10/train/ar_model_latest.pth
+  results_dir: /workspace/TAO/Training_results/results_y_10
+  onnx_file: null
+  gpu_id: 0
+  batch_size: 1
+
+inference:
+  num_gpus: 1
+  gpu_ids:
+    - 0
+  num_nodes: 1
+  checkpoint: /workspace/TAO/Training_results/results_y_10/train/ar_model_latest.pth
+  trt_engine: null
+  results_dir: /workspace/TAO/Training_results/results_y_10
+  batch_size: 1
+  inference_dataset_dir: /workspace/TAO/datasets/fullframes2/test
+  video_inf_mode: center
+  video_num_segments: 1
