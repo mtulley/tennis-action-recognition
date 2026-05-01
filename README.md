@@ -4,6 +4,15 @@
 ## Overview
 This repository contains deep learning models trained for classification of tennis shots from input videos.
 
+## Project Summary
+
+## Codebase Map
+
+## Architecture Diagrams
+
+## Setup instructions
+For Action Recognition net, install tao tool kit via docker using a legacy API key, run training with the desired YAML file , if needed the pretrained weights used in this project can also be donwloaded from nvidias NGC website.
+
 
 ## Repo Structure
 
