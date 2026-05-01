@@ -14,8 +14,9 @@ This repository contains deep learning models trained for classification of tenn
   <img src="images/Architecture_AR_2.png" width="45%"/>
 </p>
 <p align="center">
-  <em>Model architecture diagrams</em>
+  <em>Action Recognition Net 3D architecture diagrams</em>
 </p>
+
 ## Setup instructions
 For Action Recognition net, install tao tool kit via docker using a legacy API key, run training with the desired YAML file , if needed the pretrained weights used in this project can also be donwloaded from nvidias NGC website.
 
