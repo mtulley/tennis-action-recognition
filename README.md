@@ -54,6 +54,10 @@ The data is from the THETIS dataset (link here).
 </p>
 <p align="center">
 
+The experiments show a clear progression in performance driven by key parameter changes. The initial baseline using pretrained weights struggled with certain classes, achieving only around 50% accuracy in some cases. A major improvement came from reducing the RGB sequence length and adding dropout, which increased overall accuracy by about 12% and revealed that training plateaued relatively early. Further experiments confirmed that a short sequence length was optimal, and additional gains were achieved by lowering the learning rate, reducing batch size, and continuing training from a strong checkpoint, which helped push performance beyond the previous ~85% ceiling. Final tuning with short training intervals, slightly higher learning rates, and increased decay allowed the model to surpass 90% accuracy, though with more unstable training behavior compared to earlier runs.
+
+## AI usage summary
+LLM and AI usage was primarily used to deal with issues when installing tao tool kit, for example figuring out correct versions, what version of weights are compatible and should be donwloaded, the cli interface commands (as the official documentation was for a different version of toolkit). AI was also used to edit the c backend of deepstream config files, primarily for the purpose of adding a working video source and output source as the fakesink was incompatible. 
 
 ### Videos
 - 640x480p
@@ -64,4 +68,6 @@ The data is from the THETIS dataset (link here).
 ### Skeletons
 - 34 joints (Nvidia format for PoseClassificationNet)
 - Keypoint information stored in json files
+
+
 
