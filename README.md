@@ -5,8 +5,7 @@
 This repository contains deep learning models trained for classification of tennis shots from input videos.
 
 ## Project Summary
-
-## Codebase Map
+This project explores the use of NVIDIA TAO Toolkit and DeepStream pipelines to perform tennis action recognition from video using lightweight deep learning models. Two approaches are evaluated: an end-to-end 3D CNN (ActionRecognitionNet) and a skeleton-based pipeline (BodyPose3DNet + PoseClassificationNet). While the 3D CNN achieves strong performance (over 90% accuracy) on the THETIS dataset, the skeleton-based method performs significantly worse, highlighting the importance of visual context such as racket motion. Despite promising training results, real-time inference on live video is less reliable due to dataset limitations and poor generalization, suggesting that model performance is constrained more by data quality than model capacity.
 
 ## Architecture Diagrams
 <p align="center">
@@ -21,7 +20,7 @@ This repository contains deep learning models trained for classification of tenn
 For Action Recognition net, install tao tool kit via docker using a legacy API key, run training with the desired YAML file , if needed the pretrained weights used in this project can also be donwloaded from nvidias NGC website.
 
 
-## Repo Structure
+## CodeBase Map/Repo Structure
 
 
 ```
@@ -48,6 +47,14 @@ For Action Recognition net, install tao tool kit via docker using a legacy API k
 
 ## Dataset
 The data is from the THETIS dataset (link here).
+
+## Results summary
+<p align="center">
+  <img src="images/Architecture_AR_1.png" width="45%"/>
+  <img src="images/Architecture_AR_2.png" width="45%"/>
+</p>
+<p align="center">
+
 
 ### Videos
 - 640x480p
