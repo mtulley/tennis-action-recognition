@@ -50,7 +50,7 @@ The data is from the THETIS dataset (link here).
 
 ## Results summary
 <p align="center">
-  <img src="images/data1.png" width="45%"/>
+  <img src="images/data1.png"/>
 </p>
 <p align="center">
 
