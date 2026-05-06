@@ -67,6 +67,12 @@ To run evaluation  can use this command in the container:
 action_recognition evaluate   -e /workspace/path/to/yaml
 evaluate.checkpoint=/workspace/path/to/ar_model_latest.pth
 ```
+Deepstream real time inference setup was not included for brevity but to use it a custom file modified from the original deepstream_3d_action_recognition.cpp is needed and it needs to copied into the docker container everytime the container opens, the file then needs to be compiled inside the container with a make command. Additionally the config files for deepstreams action recognition is also recommended to be copied out of the container and modified and then copied into the container, the config in the 3 config files should match the training setup for the exported file. 
+
+The general pipeline is train and evaluate the model in tao tool kit, export as onnx file, adjust deepstream config files to match and use the exported onnx file in deepstream for realtime continous inference.
+
+It is recommend to use OBS for the live camera feed and to use VLC media player for output as both input and output functions in the default cpp file are incompatible through wsl due to a known camera issue with tao tool kit and wsl. The CPP file is included in this repo as reference.
+
 
 ### Pose Classification Net
 
