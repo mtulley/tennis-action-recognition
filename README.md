@@ -46,6 +46,27 @@ This project explores the use of NVIDIA TAO Toolkit and DeepStream pipelines to 
 ### Action Recognition Net
 For Action Recognition net, install tao tool kit via docker using a legacy API key, run training with the desired YAML file , if needed the pretrained weights used in this project can also be donwloaded from nvidias NGC website.
 
+Once installed open the docker container with this command, adjust command to where taotoolkit is installed:
+```bash
+docker run --rm -it \
+  --gpus all \
+  --ipc=host \
+  --ulimit memlock=-1 \
+  --ulimit stack=67108864 \
+  -v /home/garywww/TAO:/workspace/TAO \
+  nvcr.io/nvidia/tao/tao-toolkit:6.26.3-pyt bash
+```bash
+
+To run training you can use this command in the container:
+```bash
+action_recognition train   -e /workspace/path/to/yaml
+```bash
+
+To run evaluation  can use this command in the container:
+```bash
+action_recognition evaluate   -e /workspace/path/to/yaml
+evaluate.checkpoint=/workspace/path/to/ar_model_latest.pth
+```bash
 
 ### Pose Classification Net
 
