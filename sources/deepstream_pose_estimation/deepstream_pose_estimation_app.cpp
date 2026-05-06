@@ -1,3 +1,7 @@
+// This file is from NVIDIA DeepStream Reference Applications:
+// deepstream_pose_estimation_app.cpp
+// Modifications Copyright (c) 2026 Max Tulley
+
 /*
  * SPDX-FileCopyrightText: Copyright (c) 2021-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0

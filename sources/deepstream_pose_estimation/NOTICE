@@ -1,0 +1,48 @@
+This repository includes software derived from the NVIDIA DeepStream Reference Applications.
+
+Original source:
+https://github.com/NVIDIA-AI-IOT/deepstream_reference_apps
+(DeepStream BodyPose 3D application)
+
+Copyright (c) NVIDIA Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use files from this software except in compliance with the License.
+You may obtain a copy of the License at:
+
+```
+http://www.apache.org/licenses/LICENSE-2.0
+```
+
+---
+
+Modifications and Derived Files:
+
+The following files in this repository are derived from:
+
+```
+sources/deepstream_pose_estimation/deepstream_pose_estimation_app.cpp
+(originally from the NVIDIA DeepStream Reference Applications)
+```
+
+Modified files include:
+
+* sources/deepstream_pose_estimation/deepstream_pose_estimation_claude.cpp
+* sources/deepstream_pose_estimation/deepstream_pose_estimation_batch.cpp
+
+These files contain substantial modifications, including but not limited to:
+
+* Refactoring and restructuring of the original application logic
+* Adaptation for project-specific use cases
+* Additional functionality and/or performance-related changes
+
+---
+
+The original code and all modifications are distributed under the
+Apache License, Version 2.0.
+
+No endorsement by NVIDIA Corporation is implied by the use of this software.
+
+---
+
+This product includes software developed by NVIDIA Corporation.
