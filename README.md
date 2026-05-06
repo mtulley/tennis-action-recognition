@@ -171,23 +171,39 @@ pose_classification inference \
 
 ```
 .
-├── dataset/                    # Empty directory for dataset
-├── notebooks/                  # Contains a notebook for testing
-├── pretrained/                 # Empty directory for pretrained model weights
-├── results/                    # Results of training/evaluation/testing
-│   ├── pose_classification/    
-│   └── action_recognition/     
-├── scripts/                    # Python scripts
-│   ├── pose_classification/    
-│   └── action_recognition/     
-├── sources/                    # Deepstream app source files
-│   ├── pose_classification/    
-│   └── action_recognition/     
-├── specs/                      # Contains .yaml specification files for TAO
-│   ├── pose_classification/
-│   └── action_recognition/
-├── .gitignore                    
-└── README.md
+├── Paper/
+│   └── Tennis_paper/          # Overleaf / LaTeX paper project (writeup, figures, bibliography, styles)
+│
+├── images/                    # General images 
+│
+├── notebooks/
+│   └── test.ipynb             
+│
+├── results/
+│   ├── Action_Recognition_Net/   # Training tensorboard and lightning logs (resulting checkpoints and exported models too large to include)
+│   └── pose_classification/
+│       └── v2.1/                 # Pose classification (versioned experiments)
+│
+├── scripts/
+│   ├── Action_Recognition_Net/   # Data preprocessing script
+│   └── pose_classification/      # Scripts for pose pipeline (data conversion, training prep, etc.)
+│
+├── sources/
+│   ├── Action_Recognition_Net/
+│   │   ├── configs/              # DeepStream config files (needs to match the models configs)
+│   │   ├── labels/               # Label files (class index → class name mapping for inference)
+│   │   ├── models/               # Exported models (ONNX model not included because too large)
+│   │   ├── temp/                 # C++ source code (modified DeepStream app to be able to use camera and continuos live inference)
+│   │   └── videos/               # Test videos used to test inference
+│   │
+│   └── deepstream_pose_estimation/  # DeepStream-related pose estimation pipeline
+│
+├── specs/
+│   ├── Action_Recognition_Net/   # TAO YAML spec files for training/evaluation
+│   └── pose_classification/      # TAO specs for pose classification models
+│
+├── .gitignore                   
+└── README.md                    
 ```
 
 
