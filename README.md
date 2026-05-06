@@ -55,18 +55,18 @@ docker run --rm -it \
   --ulimit stack=67108864 \
   -v /home/garywww/TAO:/workspace/TAO \
   nvcr.io/nvidia/tao/tao-toolkit:6.26.3-pyt bash
-```bash
+```
 
 To run training you can use this command in the container:
 ```bash
 action_recognition train   -e /workspace/path/to/yaml
-```bash
+```
 
 To run evaluation  can use this command in the container:
 ```bash
 action_recognition evaluate   -e /workspace/path/to/yaml
 evaluate.checkpoint=/workspace/path/to/ar_model_latest.pth
-```bash
+```
 
 ### Pose Classification Net
 
